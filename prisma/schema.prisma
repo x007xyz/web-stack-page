@@ -71,3 +71,14 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Menu {
+    id        Int      @id @default(autoincrement())
+    name      String
+    icon      String?
+    parentId  Int?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    parent    Menu?    @relation("Children", fields: [parentId], references: [id])
+    children  Menu[]   @relation("Children")
+}

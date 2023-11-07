@@ -1,5 +1,7 @@
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
+import LineClamp from "@tailwindcss/line-clamp"
+
 
 export default {
   content: ["./src/**/*.tsx"],
@@ -10,5 +12,7 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    LineClamp
+  ],
 } satisfies Config;
