@@ -81,4 +81,17 @@ model Menu {
     updatedAt DateTime @updatedAt
     parent    Menu?    @relation("Children", fields: [parentId], references: [id])
     children  Menu[]   @relation("Children")
+    items      WebItem[]
+}
+
+model WebItem {
+    id        Int      @id @default(autoincrement())
+    name      String
+    url       String
+    description String?
+    icon      String?
+    menuId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    menu      Menu    @relation(fields: [menuId], references: [id])
 }

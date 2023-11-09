@@ -57,7 +57,7 @@ export const menuRouter = createTRPCRouter({
     .input(z.object({ 
       parentId: z.number().optional(),
       name: z.string().min(1),
-      icon: z.string().optional()
+      icon: z.string().optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       return ctx.db.menu.create({

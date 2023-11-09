@@ -30,3 +30,5 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 export type MenuItemType = inferProcedureOutput<AppRouter['menu']['list']>[number];
+
+export type WebItemType = inferProcedureOutput<AppRouter['item']['list']>[number];
