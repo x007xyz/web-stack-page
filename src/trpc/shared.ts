@@ -1,4 +1,4 @@
-import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
+import { inferProcedureOutput, type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
 
 import { type AppRouter } from "~/server/api/root";
@@ -28,3 +28,5 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+export type MenuItemType = inferProcedureOutput<AppRouter['menu']['list']>[number];

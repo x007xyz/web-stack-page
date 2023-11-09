@@ -38,3 +38,76 @@ npx prisma migrate dev --name init
 ```shell
 pnpm run dev
 ```
+
+在组件中使用trpc类型
+```ts
+type MenuItemType = inferProcedureOutput<AppRouter['menu']['list']>[number]
+```
+
+官方不建议使用trpc上传文件
+https://github.com/trpc/trpc/discussions/658
+1. 使用base64上传图片
+2. 上传到oss，trpc只返回oss签名文件
+
+Nextjs在客户端渲染页面中新增数据，如何更新服务端渲染页面里对应的数据（或者说服务端渲染页面的数据如何及时更新）
+
+```ts
+ctx.db.menu.findMany({
+  where: {
+    parentId: null
+  },
+  include: {
+    children: true,
+  }
+});
+```
+获取的数据类型为:
+```ts
+type MenuItemType = {
+    children: {
+        id: number;
+        name: string;
+        icon: string | null;
+        parentId: number | null;
+        createdAt: Date;
+        updatedAt: Date;
+    }[];
+} & {
+    id: number;
+    name: string;
+    icon: string | null;
+    parentId: number | null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+```
+这样的数据类型好像没有获取到第3层数据
+chatgpt：
+Prisma不支持递归查询
+
+使用深层次查找：
+```ts
+const findChildren = async () => {
+  const menus = await prisma.menuItem.findMany({
+    where: {
+      id: 1,
+    },
+    include: {
+      children: {
+        where: {
+          parentId: 1,
+        },
+        include: {
+          children: {
+            where: {
+              parentId: 2,
+            },
+          },
+        },
+      },
+    },
+  });
+  console.log(menus[0].children);
+};
+```
+获取所有数据，然后做拼接
